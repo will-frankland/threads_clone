@@ -5,7 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 
-//Clerk Imports
+// Clerk Imports
 import { SignOutButton, SignedIn } from "@clerk/nextjs";
 
 // Constant Imports
