@@ -24,6 +24,9 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "../ui/button";
 
+// Component Imports
+import { isBase64Image } from "@/lib/utils";
+
 interface Props {
   user: {
     id: string;
