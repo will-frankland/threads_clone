@@ -4,7 +4,7 @@
 import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { ChangeEvent, useState } from "react";
-import { useUploadThing } from '@/lib/uploadthing'
+import { useUploadThing } from "@/lib/uploadthing";
 import { usePathname, useRouter } from "next/navigation";
 
 // Zod Imports
@@ -82,23 +82,29 @@ const AccountProfile = ({ user, btnTitle }: Props) => {
     const blob = values.profile_photo;
     const hasImagedChanged = isBase64Image(blob);
 
-    if(hasImagedChanged) {
-      const imgRes = await startUpload(files)
+    if (hasImagedChanged) {
+      const imgRes = await startUpload(files);
 
-      if(imgRes && imgRes[0].fileUrl) {
+      if (imgRes && imgRes[0].fileUrl) {
         values.profile_photo = imgRes[0].fileUrl;
       }
     }
 
     await updateUser({
-      userId: user.id,
-      username: values.username,
       name: values.name,
+      path: pathname,
+      username: values.username,
+      userId: user.id,
       bio: values.bio,
       image: values.profile_photo,
-      path: pathname
-    })
-  }
+    });
+
+    if (pathname === "/profile/edit") {
+      router.back();
+    } else {
+      router.push("/");
+    }
+  };
 
   return (
     <Form {...form}>
