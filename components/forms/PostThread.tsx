@@ -10,6 +10,7 @@ import * as z from "zod";
 
 // ShadCN Imports
 import { threadValidation } from "@/lib/validations/thread";
+import { createThread } from "@/lib/actions/thread.actions";
 import {
   Form,
   FormControl,
@@ -50,8 +51,15 @@ function PostThread({ userId }: { userId: string }) {
     },
   });
 
-  const onSubmit = async () => {
-    // await createThread()
+  const onSubmit = async (values: z.infer<typeof threadValidation>) => {
+    await createThread({
+      text: values.thread,
+      author: userId,
+      communityId: null,
+      path: pathname
+    })
+
+    router.push("/");
   };
 
   return (

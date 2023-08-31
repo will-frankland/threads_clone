@@ -1,3 +1,5 @@
+"use server"
+
 import { connectToDb } from "../mongoose";
 import Thread from "../models/thread.model";
 import User from "../models/user.model";
@@ -16,7 +18,8 @@ export async function createThread({
   communityId,
   path,
 }: Params) {
-  connectToDb();
+  try {
+    connectToDb();
 
   const createdThread = await Thread.create({
     text,
@@ -30,4 +33,8 @@ export async function createThread({
   })
 
   revalidatePath(path);
+  } catch (error: any) {
+    throw new Error(`Error creating thread: ${error.message}`)
+  }
+  
 }
