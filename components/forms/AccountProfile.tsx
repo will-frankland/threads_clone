@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { ChangeEvent, useState } from "react";
 import { useUploadThing } from '@/lib/uploadthing'
+import { usePathname, useRouter } from "next/navigation";
 
 // Zod Imports
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -27,6 +28,7 @@ import { Button } from "../ui/button";
 
 // Component Imports
 import { isBase64Image } from "@/lib/utils";
+import { updateUser } from "@/lib/actions/user.actions";
 
 interface Props {
   user: {
@@ -43,6 +45,8 @@ interface Props {
 const AccountProfile = ({ user, btnTitle }: Props) => {
   const [files, setFiles] = useState<File[]>([]);
   const { startUpload } = useUploadThing("media");
+  const router = useRouter();
+  const pathname = usePathname();
 
   const form = useForm({
     resolver: zodResolver(userValidation),
@@ -86,7 +90,14 @@ const AccountProfile = ({ user, btnTitle }: Props) => {
       }
     }
 
-    // TODO: Update user profile
+    await updateUser(
+      values.username,
+      values.name,
+      values.bio,
+      values.profile_photo,
+      user.id,
+      pathname
+    )
   }
 
   return (
