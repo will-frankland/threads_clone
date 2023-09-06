@@ -128,9 +128,9 @@ export async function addCommentToThread(
       parentId: threadId,
     });
     const savedCommentThread = await commentThread.save();
-
+    
     originalThread.children.push(savedCommentThread._id);
-
+  
     await originalThread.save();
 
     revalidatePath(path);
